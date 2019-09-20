@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Send document to text2pdf conversion</shortname>
+  <description>Document List Action - Send document to Media converter conversion</description>
+  <url>/send-to-qrcode</url>
+  <authentication>user</authentication>
+  <format default="">argument</format>
+</webscript>

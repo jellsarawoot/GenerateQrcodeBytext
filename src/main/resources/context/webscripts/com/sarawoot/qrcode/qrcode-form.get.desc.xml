@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Generate QRCODE</shortname>
+  <description>Generate QRCODE</description>
+  <url>/qrcode-form</url>
+  <format default="html"/>
+  <authentication>user</authentication>
+</webscript>

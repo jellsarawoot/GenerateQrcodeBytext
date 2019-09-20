@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders">
+            <value>true</value>
+        </property>
+        <property name="locations">
+            <list>
+                <value>classpath:context/extension/qrcode.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="adv-qrcode-messages" parent="actionResourceBundles">
+		<property name="resourceBundles">
+			<list>
+				<value>context.messages.qrcode-messages</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="webscript.com.sarawoot.qrcode.send-to-qrcode-converter.post" class="com.sarawoot.webscript.QrcodePathConversion"
+		parent="webscript">
+		<constructor-arg ref="classManager" />
+		<property name="serviceRegistry" ref="ServiceRegistry" />
+		<property name="params">
+			<map>
+				<entry key="logoPath" value="${qrcode.logoPath}" />
+				<entry key="fontPath" value="${qrcode.fontPath}" />
+				<entry key="convertPath" value="${qrcode.pdf2tiff.cmd.convertPath}" />
+				<entry key="insideImage" value="${qrcode.insideImage.enabled}" />
+				<entry key="pdftiff" value="${qrcode.pdf2tiff.enabled}" />
+				<entry key="confPath" value="${qrcode.conf.path}" />
+				<entry key="command" value="${html2pdf.exe}" />
+			</map>
+		</property>
+	</bean>
+    <!-- Form value -->
+	<bean id="webscript.com.sarawoot.qrcode.qrcode-form.get"
+	      class="com.sarawoot.webscript.QrcodePathForm"
+	      parent="webscript">
+	    <constructor-arg ref="classManager" />
+	    <property name="serviceRegistry" ref="ServiceRegistry" />
+		
+	</bean>
+
+	<bean id="generate-qr" class="com.sarawoot.actions.GenerateQRCode" parent="action-executer">
+    	<constructor-arg ref="classManager" />
+        <property name="serviceRegistry">
+            <ref bean="ServiceRegistry" />
+        </property>
+        <property name="parameters">
+			<map>
+				<entry key="logoPath" value="${qrcode.logoPath}" />
+				<entry key="convertPath" value="${qrcode.pdf2tiff.cmd.convertPath}" />
+				<entry key="insideImage" value="${qrcode.insideImage.enabled}" />
+				<entry key="confPath" value="${qrcode.conf.path}" />
+				<entry key="command" value="${html2pdf.exe}" />
+			</map>
+		</property>
+		<property name="objects">
+			<map>
+				<entry key="namespacePrefixResolver" value-ref="namespaceService" />
+			</map>
+		</property>
+    </bean>
+
+    <bean id="generate-qr-saveas" class="com.sarawoot.actions.GenerateQRListSaveasSelector" parent="action-constraint" />
+    <bean id="generate-dest-mimetype" class="com.sarawoot.actions.GenerateQRListMimetypeSelector" parent="action-constraint" />
+   
+</beans>
